@@ -8,10 +8,11 @@ import RegisterScreen from "./screens/auth/register";
 import SplashScreen from "./screens/auth/default";
 import { AuthContext } from "./hooks/authContext"; 
 import { useContext } from "react";
+import SearchScreen from "./screens/app/SearchScreen";
 
 export default function Navigator() {
   if (useContext(AuthContext).isLoggedIn) return <AppNavigator />;
-  else return <AuthNavigator />;
+  else return <AppNavigator />;
 } 
 
 function AuthNavigator() {
@@ -46,16 +47,21 @@ function AuthNavigator() {
 }
 
 function AppNavigator() {
+  const Stack = createStackNavigator();
   return (
     <Stack.Navigator
-      initialRouteName="Login"
+      initialRouteName="SearchScreen"
       screenOptions={{
         gestureEnabled: true,
         gestureDirection: "horizontal",
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
     >
-      <Stack.Screen name="Splash" component={SplashScreen} />
+      <Stack.Screen
+        name="SearchScreen"
+        component={SearchScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="Login"
         component={LoginScreen}
