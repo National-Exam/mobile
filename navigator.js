@@ -12,7 +12,7 @@ import SearchScreen from "./screens/app/SearchScreen";
 
 export default function Navigator() {
   if (useContext(AuthContext).isLoggedIn) return <AppNavigator />;
-  else return <AppNavigator />;
+  else return <AuthNavigator />;
 } 
 
 function AuthNavigator() {
