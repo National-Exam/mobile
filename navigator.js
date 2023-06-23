@@ -3,19 +3,16 @@ import {
   CardStyleInterpolators,
 } from "@react-navigation/stack";
 
-import LoginScreen from "./screens/auth/login";
-import RegisterScreen from "./screens/auth/register";
-import SplashScreen from "./screens/auth/default";
-import { AuthContext } from "./hooks/authContext"; 
-import { useContext } from "react";
-import SearchScreen from "./screens/app/SearchScreen";
+import ValidateScreen from "./screens/validate";
+import GenerateScreen from "./screens/generate";
+import SplashScreen from "./screens/default";
+import SearchScreen from "./screens/SearchScreen";
 
 export default function Navigator() {
-  if (useContext(AuthContext).isLoggedIn) return <AppNavigator />;
-  else return <AuthNavigator />;
+  return <AppNavigator />;  
 } 
 
-function AuthNavigator() {
+function AppNavigator() {
   const Stack = createStackNavigator();
 
   return (
@@ -33,45 +30,21 @@ function AuthNavigator() {
         options={{ headerShown: false }}
           />
       <Stack.Screen
-        name="Login"
-        component={LoginScreen}
+        name="Generate"
+        component={GenerateScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Register"
-        component={RegisterScreen}
+        name="Validate"
+        component={ValidateScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Search"
+        component={SearchScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
 }
 
-function AppNavigator() {
-  const Stack = createStackNavigator();
-  return (
-    <Stack.Navigator
-      initialRouteName="SearchScreen"
-      screenOptions={{
-        gestureEnabled: true,
-        gestureDirection: "horizontal",
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-      }}
-    >
-      <Stack.Screen
-        name="SearchScreen"
-        component={SearchScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Login"
-        component={LoginScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Register"
-        component={RegisterScreen}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
-  );
-}

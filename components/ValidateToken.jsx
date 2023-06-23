@@ -12,20 +12,16 @@ import { EvilIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { AuthContext } from "../hooks/authContext";
 import { useFormik } from "formik";
-import * as SecureStore from "expo-secure-store";
 
-export function LoginForm(props) {
-    const { navigation } = props;
-
-    const setIsLoggedIn = react.useContext(AuthContext).setIsLoggedIn;
+export function ValidateTokenForm(props) {
+    const { navigation } = props;    
 
     const { handleSubmit, handleChange, handleReset, values } = useFormik({
         initialValues: {
-            email: "",
-            password: "",
+           token: "",
         },
         onSubmit: async (values, { resetForm }) => {
-            if (!values.email || !values.password) {
+            if (!values.token) {
                 Alert.alert("Error", "You must fill in all fields");
                 return;
             }
@@ -61,32 +57,24 @@ export function LoginForm(props) {
     });
 
     return (
-       <View className="flex justify-center items-center">
+       <View className="flex justify-center items-center">       
       <View className="flex-row items-center p-4 mt-4 w-3/4 h-14 rounded-lg border-2 border-gray-200">
         <EvilIcons name="envelope" size={24} color="gray" />
         <TextInput
-          placeholder="Your Email"
-          value={values.email}
-          onChangeText={handleChange('email')}
+          placeholder="Your Token"
+          value={values.token}          
+          onChangeText={handleChange('token')}
           className="w-64 ml-2"
+          minLength={8}
+          maxLength={8}
         />
-      </View>
-      <View className="flex-row items-center p-4 mt-4 w-3/4 h-14 rounded-lg border-2 border-gray-200">
-        <AntDesign name="lock" size={24} color="gray" />
-        <TextInput
-          secureTextEntry
-          placeholder="Password"
-          value={values.password}
-          onChangeText={handleChange('password')}
-          className="w-64 ml-2"
-        />
-      </View>
+      </View>        
       <View className="mt-6 w-3/4">
         <TouchableOpacity
           onPress={handleSubmit}
           className="flex justify-center items-center p-4 bg-primary rounded-lg  shadow-md"
         >
-          <Text className="text-white font-bold text-base">Sign In</Text>
+          <Text className="text-white font-bold text-base">Proceed</Text>
         </TouchableOpacity>
       </View>
       <View className="flex-row items-center justify-between mt-6">
@@ -94,28 +82,32 @@ export function LoginForm(props) {
         <Text className="text-gray-500 font-bold text-base">OR</Text>
         <View className="w-1/3 h-1 bg-gray-500" />
       </View>
-      <View className="flex-row items-center p-4 mt-6 w-3/4 h-14 rounded-lg border-2 border-gray-200">
-        <FontAwesome name="google" size={24} color="black" />
-        <Text className="ml-2 text-gray-500">Login with Google</Text>
-      </View>
-      <View className="flex-row items-center p-4 mt-4 w-3/4 h-14 rounded-lg border-2 border-gray-200">
-        <FontAwesome name="facebook" size={24} color="black" />
-        <Text className="ml-2 text-gray-500">Login with Facebook</Text>
-      </View>
-      <View className="mt-4">
-        <Text className="text-primary text-base">Forgot Password</Text>
-      </View>
-      <TouchableOpacity
-        onPress={() => {
+     <Text className="text-gray-400 mt-6">If you want to generate a new token?</Text>
+     <View className="mt-6 w-3/4">
+        <TouchableOpacity
+           onPress={() => {
           console.log('Go to register');
-          navigation.navigate('Register');
+          navigation.navigate('Generate');
+        }}
+          className="flex justify-center items-center p-4 bg-primary rounded-lg  shadow-md"
+        >
+          <Text className="text-white font-bold text-base">Generate token</Text>
+        </TouchableOpacity>
+      </View>     
+     <View className="mt-6 w-3/4">
+<TouchableOpacity
+        onPress={() => {
+          console.log('Go to search');
+          navigation.navigate('Search');
         }}
       >
         <View className="flex-row items-center justify-between mt-4 mb-2">
-          <Text className="text-gray-500 text-base">Don't have an account?</Text>
-          <Text className="text-primary text-base">Register</Text>
+          <Text className="text-gray-500 text-base">Do you want to search for tokens?</Text>
+          <Text className="text-primary text-base">Search</Text>
         </View>
       </TouchableOpacity>
+      </View>     
+      
     </View>
     );
 }

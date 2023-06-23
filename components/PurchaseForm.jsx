@@ -14,18 +14,16 @@ import { AuthContext } from "../hooks/authContext";
 import { useFormik } from "formik";
 import * as SecureStore from "expo-secure-store";
 
-export function SignUpForm(props) {
-    const { navigation } = props;
-
-    const setIsLoggedIn = react.useContext(AuthContext).setIsLoggedIn;
+export function PurchaseForm(props) {
+    const { navigation } = props;    
 
     const { handleSubmit, handleChange, handleReset, values } = useFormik({
         initialValues: {
-            email: "",
-            password: "",
+            amount: "",
+            meter_number: "",
         },
         onSubmit: async (values, { resetForm }) => {
-            if (!values.email || !values.password) {
+            if (!values.amount || !values.meter_number) {
                 Alert.alert("Error", "You must fill in all fields");
                 return;
             }
@@ -62,33 +60,24 @@ export function SignUpForm(props) {
 
     return (
        <View className="flex justify-center items-center">
-         <View className="flex-row items-center p-4 mt-4 w-3/4 h-14 rounded-lg border-2 border-gray-200">
-        <EvilIcons name="envelope" size={24} color="gray" />
-        <TextInput
-          placeholder="Your Full Name"
-          value={values.fullName}
-          onChangeText={handleChange('fullName')}
-          className="w-64 ml-2"
-        />
-      </View>
       <View className="flex-row items-center p-4 mt-4 w-3/4 h-14 rounded-lg border-2 border-gray-200">
         <EvilIcons name="envelope" size={24} color="gray" />
         <TextInput
-          placeholder="Your Email"
-          value={values.email}
-          onChangeText={handleChange('email')}
+          placeholder="Meter number"
+          value={values.meter_number}
+          onChangeText={handleChange('meter_number')}
           className="w-64 ml-2"
         />
       </View>
-     
       <View className="flex-row items-center p-4 mt-4 w-3/4 h-14 rounded-lg border-2 border-gray-200">
         <AntDesign name="lock" size={24} color="gray" />
-        <TextInput
-          secureTextEntry
-          placeholder="Password"
-          value={values.password}
-          onChangeText={handleChange('password')}
+        <TextInput          
+          placeholder="Amount"
+          value={values.amount}
+          onChangeText={handleChange('amount')}
           className="w-64 ml-2"
+          minLength={11}
+          maxLength={11}
         />
       </View>
       <View className="mt-6 w-3/4">
@@ -96,35 +85,34 @@ export function SignUpForm(props) {
           onPress={handleSubmit}
           className="flex justify-center items-center p-4 bg-primary rounded-lg  shadow-md"
         >
-          <Text className="text-white font-bold text-base">Proceed</Text>
+          <Text className="text-white font-bold text-base">Generate token</Text>
         </TouchableOpacity>
       </View>
       <View className="flex-row items-center justify-between mt-6">
         <View className="w-1/3 h-1 bg-gray-500" />
         <Text className="text-gray-500 font-bold text-base">OR</Text>
         <View className="w-1/3 h-1 bg-gray-500" />
-      </View>
-     <Text className="text-gray-400 mt-6">If you have a PMG account?</Text>
-     <View className="mt-6 w-3/4">
-        <TouchableOpacity
-          onPress={handleSubmit}
-          className="flex justify-center items-center p-4 bg-primary rounded-lg  shadow-md"
-        >
-          <Text className="text-white font-bold text-base">Sign In</Text>
-        </TouchableOpacity>
-      </View>
-      <View className="mt-4">
-        <Text className="text-primary text-base">Forgot Password</Text>
-      </View>
+      </View>      
       <TouchableOpacity
         onPress={() => {
-          console.log('Go to register');
-          navigation.navigate('Register');
+          console.log('Go to validate');
+          navigation.navigate('Validate');
         }}
       >
         <View className="flex-row items-center justify-between mt-4 mb-2">
-          <Text className="text-gray-500 text-base">Don't have an account?</Text>
-          <Text className="text-primary text-base">Register</Text>
+          <Text className="text-gray-500 text-base">Do you want to verify a token?</Text>
+          <Text className="text-primary text-base">Validate</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          console.log('Go to search');
+          navigation.navigate('Search');
+        }}
+      >
+        <View className="flex-row items-center justify-between mt-4 mb-2">
+          <Text className="text-gray-500 text-base">Do you want to search for tokens?</Text>
+          <Text className="text-primary text-base">Search</Text>
         </View>
       </TouchableOpacity>
     </View>

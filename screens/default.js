@@ -15,8 +15,11 @@ export default function DefaultScreen({navigation}) {
     <PanGestureHandler onGestureEvent={onSwipeRight} onHandlerStateChange={onSwipeLeft}>
     <View className="flex-1 items-center w-full h-full justify-center bg-primary">
       <Text className="text-5xl font-bold mb-6 text-slate-900">
-        Supa
-        <Text className="text-[#fff]">Menu</Text>
+        TOKEN 
+        <Text className="text-[#fff]">Generator</Text>
+      </Text>
+      <Text className="text-md font-bold mb-6 text-slate-900">       
+        <Text className="text-blue-400">Swipe right to continue</Text>
       </Text>
     </View>
     </PanGestureHandler>
