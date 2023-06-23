@@ -9,8 +9,7 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
-import { AuthContext } from "../hooks/authContext";
+
 import { useFormik } from "formik";
 import * as SecureStore from "expo-secure-store";
 
@@ -20,7 +19,7 @@ export function PurchaseForm(props) {
     const { handleSubmit, handleChange, handleReset, values } = useFormik({
         initialValues: {
             amount: "",
-            meter_number: "",
+            meter_number: "", 
         },
         onSubmit: async (values, { resetForm }) => {
             if (!values.amount || !values.meter_number) {
@@ -28,33 +27,31 @@ export function PurchaseForm(props) {
                 return;
             }
 
-            // const response = await fetch(
-            //     "http://196.223.240.154:8099/supapp/api/auth/signin",
-            //     {
-            //         method: "POST",
-            //         headers: {
-            //             "Content-Type": "application/json",
-            //         },
-            //         body: JSON.stringify({
-            //             login: values.email,
-            //             password: values.password,
-            //         }),
-            //     }
-            // );
+            const response = await fetch(
+                "http://192.168.8.101:5000/api/v1/tokens",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        amount: values.amount,
+                        meter_number: values.meter_number,
+                    }),
+                }
+            );
 
-            // if (!response.ok) {
-            //     Alert.alert("Error", "Invalid credentials");
+            if (!response.ok) {
+                Alert.alert("Error", "Invalid credentials");
 
-            //     return;
-            // }
+                return;
+            }
 
-            // const data = await response.json();
-            // Alert.alert("Success", "You have successfully signed in");
-
-            // if (data.token.accessToken) {
-            //     await SecureStore.setItemAsync("token", data.token.accessToken);
-            //     setIsLoggedIn(true);
-            // }
+            const data = await response.json();
+            console.log(data, 'the data')
+            Alert.alert("Success", "Token created successfully", `The token is ${data.token}`); 
+            
+            handleReset()
         },
     });
 

@@ -7,10 +7,7 @@ import {
     Alert,
     TouchableOpacity,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
-import { FontAwesome } from "@expo/vector-icons";
-import { AuthContext } from "../hooks/authContext";
 import { useFormik } from "formik";
 
 export function ValidateTokenForm(props) {
@@ -26,33 +23,28 @@ export function ValidateTokenForm(props) {
                 return;
             }
 
-            // const response = await fetch(
-            //     "http://196.223.240.154:8099/supapp/api/auth/signin",
-            //     {
-            //         method: "POST",
-            //         headers: {
-            //             "Content-Type": "application/json",
-            //         },
-            //         body: JSON.stringify({
-            //             login: values.email,
-            //             password: values.password,
-            //         }),
-            //     }
-            // );
+            const response = await fetch(
+                "http://192.168.8.101:5000/api/v1/tokens/validate",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        token: values.token,                        
+                    }),
+                }
+            );
 
-            // if (!response.ok) {
-            //     Alert.alert("Error", "Invalid credentials");
+            if (!response.ok) {
+                Alert.alert("Error", "Invalid credentials");
 
-            //     return;
-            // }
+                return;
+            }
 
-            // const data = await response.json();
-            // Alert.alert("Success", "You have successfully signed in");
-
-            // if (data.token.accessToken) {
-            //     await SecureStore.setItemAsync("token", data.token.accessToken);
-            //     setIsLoggedIn(true);
-            // }
+            const data = await response.json();
+            Alert.alert("Success", "Token validated successfully", `The token will last ${data?.numberOfDays}`);           
+            handleReset()
         },
     });
 
